@@ -253,6 +253,7 @@ public class PayService extends Service {
                     //{"a":"pqr","p":{"d":"支付二维码内容"},"k":"123456"}
                     String key = lyySocketModel.getK();
                     String qr_code = lyySocketModel.getP().getD();
+                    LLog.i("支付二维码 " + qr_code);
                     if(PayConstant.mListener != null)
                         PayConstant.mListener.getPayQrCode(key,qr_code);
                     break;

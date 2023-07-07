@@ -34,6 +34,13 @@ public class PayFactory {
     }
 
     /**
+     * 获取支付监听
+     */
+    public OnPayListener getListener(){
+        return PayConstant.mListener;
+    }
+
+    /**
      * 初始化支付数据
      * @param payUrl 乐摇摇socket域名
      * @param payPort 乐摇摇端口号
