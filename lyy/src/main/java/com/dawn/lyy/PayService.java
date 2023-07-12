@@ -19,7 +19,7 @@ import com.dawn.socket.LSocketUtil;
 import com.google.gson.GsonBuilder;
 
 
-public class PayService extends Service {
+class PayService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

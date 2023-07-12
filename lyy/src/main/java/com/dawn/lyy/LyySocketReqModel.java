@@ -3,7 +3,7 @@ package com.dawn.lyy;
 /**
  * 乐摇摇socket请求实体类
  */
-public class LyySocketReqModel {
+class LyySocketReqModel {
     private String app;
     private String data;
 

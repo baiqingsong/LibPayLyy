@@ -3,7 +3,7 @@ package com.dawn.lyy;
 /**
  * 乐摇摇socket请求的实体类
  */
-public class LyySocketModel {
+class LyySocketModel {
     private String a;//action 协议指令
     private LyySocketModelP p;//parameter 指令参数
     private String k;//key 指令唯一码

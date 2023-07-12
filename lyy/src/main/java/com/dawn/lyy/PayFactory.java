@@ -29,8 +29,9 @@ public class PayFactory {
     /**
      * 设置支付监听
      */
-    public void setListener(OnPayListener listener) {
+    public PayFactory setListener(OnPayListener listener) {
         PayConstant.mListener = listener;
+        return instance;
     }
 
     /**
@@ -47,11 +48,12 @@ public class PayFactory {
      * @param appId 乐摇摇登录的APPID
      * @param appSecret 乐摇摇登录的秘钥
      */
-    public void initPayData(String payUrl, int payPort, String appId, String appSecret){
+    public PayFactory initPayData(String payUrl, int payPort, String appId, String appSecret){
         PayConstant.payUrl = payUrl;
         PayConstant.payPort = payPort;
         PayConstant.appId = appId;
         PayConstant.appSecret = appSecret;
+        return instance;
     }
 
     /**
