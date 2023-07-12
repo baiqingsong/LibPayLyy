@@ -63,7 +63,7 @@ public class PayFactory {
         PayConstant.deviceId = deviceId;
         PayConstant.price = price;
         PayConstant.inventory = inventory;
-        Intent netIntent = new Intent(mContext, PayService.class);
+        Intent netIntent = new Intent(mContext, PayLyyService.class);
         mContext.startService(netIntent);
     }
 

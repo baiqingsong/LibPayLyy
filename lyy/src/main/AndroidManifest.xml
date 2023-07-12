@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dawn.lyy">
     <application>
-        <service android:name=".PayService"/>
+        <service android:name=".PayLyyService"/>
     </application>
 </manifest>
