@@ -96,6 +96,7 @@ public class PayLyyService extends Service {
             @Override
             public void connectSuccess() {//乐摇摇连接成功
                 Log.i("dawn","支付socket连接成功");
+                heartFailNum = 0;//心跳检测失败次数
                 mHandler.removeMessages(h_pay_connect_time_out);//取消连接超时
                 mHandler.sendEmptyMessageDelayed(h_connect_success, 3000);//5秒后请求数据
             }
