@@ -170,6 +170,7 @@ public class PayLyyService extends Service {
     private void sendLYYCommand(LyySocketModel lyySocketModel){
         try {
             String data = LCipherUtil.aesEncrypt(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
+//            Log.i("dawn", "send data " + data);
             sendMsg(new GsonBuilder().create().toJson(new LyySocketReqModel(PayConstant.appId, data)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,6 +360,7 @@ public class PayLyyService extends Service {
 //        lyySocketModelP.setCu("" + Constant.giftInventory);//库存
         lyySocketModelP.setCu(100 + "");//库存
         lyySocketModel.setP(lyySocketModelP);
+//        Log.i("dawn", "param " + lyySocketModel.toString());
         return lyySocketModel;
     }
 
