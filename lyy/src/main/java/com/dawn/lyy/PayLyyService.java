@@ -13,8 +13,6 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.dawn.library.util.LCipherUtil;
-import com.dawn.library.util.LLog;
 import com.dawn.socket.LSocketUtil;
 import com.google.gson.GsonBuilder;
 
@@ -152,14 +150,13 @@ public class PayLyyService extends Service {
     private void getCycleHeart() {
 //        LLog.i("pay send heart");
         heartFailNum ++;
-        if(heartFailNum > 3){//失败超过3次
-            LLog.e("err restart connect ");
+        if(heartFailNum > 5){//失败超过3次
             restartConnect();
         }else{
             LyySocketReqModel lyySocketReqModel = new LyySocketReqModel("heartbeat");
             sendMsg(new GsonBuilder().create().toJson(lyySocketReqModel));
             mHandler.removeMessages(h_heart);
-            mHandler.sendEmptyMessageDelayed(h_heart, 30 * 1000);//30秒后发送心跳
+            mHandler.sendEmptyMessageDelayed(h_heart, 10 * 1000);//30秒后发送心跳
         }
     }
 
@@ -234,16 +231,16 @@ public class PayLyyService extends Service {
                     getCycleHeart();//所有操作结束，发送心跳
                     break;
                 case "b"://绑定成功//{"a":"b","k":"123456"}
-                    sendLYYCommand(getBindSuccess());//发送绑定成功回复指令
-                    sendLYYCommand(getParamSetting());//数据设置上传
                     if(PayConstant.mListener != null)
                         PayConstant.mListener.onPayBindSuccess();
+                    sendLYYCommand(getBindSuccess());//发送绑定成功回复指令
+                    sendLYYCommand(getParamSetting());//数据设置上传
                     break;
                 case "ub"://解绑成功//{"a":"ub","k":"123456"}
-                    sendLYYCommand(getUnbindSuccess());//发送解除绑定成功回复指令
-                    sendLYYCommand(getBindQrCode());//发送获取绑定二维码指令
                     if(PayConstant.mListener != null)
                         PayConstant.mListener.onPayUnbindSuccess();
+                    sendLYYCommand(getUnbindSuccess());//发送解除绑定成功回复指令
+                    sendLYYCommand(getBindQrCode());//发送获取绑定二维码指令
                     break;
                 case "bqr":// 获取绑定二维码
                     //{"a":"bqr","p":{"d":"绑定二维码内容"}}
@@ -267,6 +264,8 @@ public class PayLyyService extends Service {
                     break;
                 case "srr"://游戏结果的响应
                     //{"a":"srr","k":"123456"}
+                    if (PayConstant.mListener != null)
+                        PayConstant.mListener.onPaySuccess(lyySocketModel.getK());
                     break;
                 case "gr"://退款的返回信息
                     //{"a":"gr","p":{"i":"3","n":"口红","pi":"URL","g":"10","p":"200","co":"100","c":"20","cu":"4"},"k":"123456"}
@@ -358,7 +357,7 @@ public class PayLyyService extends Service {
         lyySocketModelP.setC("100");//出奖概率
         lyySocketModelP.setCa("" + giftAmount);//容量
 //        lyySocketModelP.setCu("" + Constant.giftInventory);//库存
-        lyySocketModelP.setCu(100 + "");//库存
+        lyySocketModelP.setCu(PayConstant.inventory + "");//库存
         lyySocketModel.setP(lyySocketModelP);
 //        Log.i("dawn", "param " + lyySocketModel.toString());
         return lyySocketModel;
@@ -400,7 +399,7 @@ public class PayLyyService extends Service {
         lyySocketModelP.setSi(productId);//礼品在服务器上id
         lyySocketModelP.setN("A01");//货道名称
         lyySocketModelP.setP(PayConstant.price + "");//支付价格
-        lyySocketModelP.setS("" + 100);//剩余库存
+        lyySocketModelP.setS("" + PayConstant.inventory);//剩余库存
 //        lyySocketModelP.setS("" + Constant.giftInventory);//剩余库存
         lyySocketModel.setP(lyySocketModelP);
         return lyySocketModel;
@@ -488,6 +487,20 @@ public class PayLyyService extends Service {
         lyySocketModel.setK(key);
         LyySocketModel.LyySocketModelP lyySocketModelP = new LyySocketModel().new LyySocketModelP();
         lyySocketModelP.setD(status ? "0" : "1");
+        lyySocketModel.setP(lyySocketModelP);
+        return lyySocketModel;
+    }
+
+    /**
+     * 退款
+     */
+    private LyySocketModel getRefundResult(String key, String pay) {
+        LyySocketModel lyySocketModel = new LyySocketModel();
+        lyySocketModel.setA("sr");//指令
+        lyySocketModel.setK(key);
+        LyySocketModel.LyySocketModelP lyySocketModelP = new LyySocketModel().new LyySocketModelP();
+        lyySocketModelP.setD("1");
+        lyySocketModelP.setF("1,1," + pay);
         lyySocketModel.setP(lyySocketModelP);
         return lyySocketModel;
     }
@@ -656,6 +669,16 @@ public class PayLyyService extends Service {
                     key = intent.getStringExtra("key");
                     boolean status = intent.getBooleanExtra("status", false);
                     operateGameResult(key, status);//处理游戏结果
+                    break;
+
+                case "update_status"://游戏结果
+                    sendLYYCommand(getParamSetting());//发送参数设置
+                    break;
+
+                case "refund_status"://退款
+                    key = intent.getStringExtra("key");
+                    String pay = intent.getStringExtra("pay");
+                    sendLYYCommand(getRefundResult(key, pay));
                     break;
             }
         }

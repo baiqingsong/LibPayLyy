@@ -92,4 +92,27 @@ public class PayFactory {
         intent.putExtra("status", status);
         mContext.sendBroadcast(intent);
     }
+
+    /**
+     * 发送更新设置指令
+     */
+    public void sendUpdateResult(Context context) {
+        Intent intent = new Intent(PayConstant.RECEIVER_PAY);
+        intent.putExtra("command", "update_status");
+        context.sendBroadcast(intent);
+    }
+
+    /***
+     *  退款
+     * @param context
+     * @param key
+     * @param pay
+     */
+    public void sendRefund(Context context, String key, String pay) {
+        Intent intent = new Intent(PayConstant.RECEIVER_PAY);
+        intent.putExtra("command", "refund_status");
+        intent.putExtra("key", key);
+        intent.putExtra("pay", pay);
+        context.sendBroadcast(intent);
+    }
 }

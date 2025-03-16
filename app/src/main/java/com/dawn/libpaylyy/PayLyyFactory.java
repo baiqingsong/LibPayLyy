@@ -1,5 +1,6 @@
 package com.dawn.libpaylyy;
 
+import android.content.Context;
 import android.webkit.JavascriptInterface;
 
 import com.dawn.lyy.OnPayListener;
@@ -99,5 +100,14 @@ public class PayLyyFactory {
     @JavascriptInterface
     public void payGetGameResult(String key, boolean status){
         payFactory.sendGameResult(key, status);
+    }
+    @JavascriptInterface
+    public void sendUpdateResult(Context context) {
+        payFactory.sendUpdateResult(context);
+    }
+
+    @JavascriptInterface
+    public void sendRefund(Context context, String key, String pay) {
+        payFactory.sendRefund(context, key, pay);
     }
 }
