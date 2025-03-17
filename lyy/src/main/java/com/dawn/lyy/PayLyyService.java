@@ -13,6 +13,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.dawn.library.LCipherUtil;
 import com.dawn.socket.LSocketUtil;
 import com.google.gson.GsonBuilder;
 
@@ -166,7 +167,7 @@ public class PayLyyService extends Service {
      */
     private void sendLYYCommand(LyySocketModel lyySocketModel){
         try {
-            String data = LCipherUtil.aesEncrypt(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
+            String data = LCipherUtil.encryptAES(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
 //            Log.i("dawn", "send data " + data);
             sendMsg(new GsonBuilder().create().toJson(new LyySocketReqModel(PayConstant.appId, data)));
         } catch (Exception e) {
@@ -187,7 +188,7 @@ public class PayLyyService extends Service {
                 heartFailNum = 0;//收到心跳，重新计算心跳连接次数
                 return;
             }
-            String dataStr = LCipherUtil.aesDecrypt(lyySocketReqModel.getData(), PayConstant.appSecret);
+            String dataStr = LCipherUtil.decryptAES(lyySocketReqModel.getData(), PayConstant.appSecret);
             LyySocketModel lyySocketModel = new GsonBuilder().create().fromJson(dataStr, LyySocketModel.class);
             String a = lyySocketModel.getA();//乐摇摇的操作指令
             if (TextUtils.isEmpty(a)) return;
@@ -559,7 +560,7 @@ public class PayLyyService extends Service {
         lyySocketModelP.setCu("" + inventory);
         lyySocketModel.setP(lyySocketModelP);
         try {
-            String data = LCipherUtil.aesEncrypt(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
+            String data = LCipherUtil.encryptAES(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
             sendMsg(new GsonBuilder().create().toJson(new LyySocketReqModel(data)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -576,7 +577,7 @@ public class PayLyyService extends Service {
         lyySocketModel.setA("bspir");
         lyySocketModel.setK(key);
         try {
-            String data = LCipherUtil.aesEncrypt(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
+            String data = LCipherUtil.encryptAES(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
             sendMsg(new GsonBuilder().create().toJson(new LyySocketReqModel(data)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -608,7 +609,7 @@ public class PayLyyService extends Service {
         lyySocketModelP.setD(give_activity ? "0100" : "0000");
         lyySocketModel.setP(lyySocketModelP);
         try {
-            String data = LCipherUtil.aesEncrypt(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
+            String data = LCipherUtil.encryptAES(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
             sendMsg(new GsonBuilder().create().toJson(new LyySocketReqModel(data)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -633,7 +634,7 @@ public class PayLyyService extends Service {
         lyySocketModel.setA("esbr");
         lyySocketModel.setK(key);
         try {
-            String data = LCipherUtil.aesEncrypt(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
+            String data = LCipherUtil.encryptAES(new GsonBuilder().create().toJson(lyySocketModel), PayConstant.appSecret);
             sendMsg(new GsonBuilder().create().toJson(new LyySocketReqModel(data)));
         } catch (Exception e) {
             e.printStackTrace();
