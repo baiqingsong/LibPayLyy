@@ -11,3 +11,4 @@
 * startService 开始支付服务
 * sendGetPayQrCode 发送获取支付二维码请求
 * sendGameResult 发送游戏结果请求
+* sendRefund 发送退款请求
