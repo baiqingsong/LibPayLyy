@@ -33,7 +33,7 @@ public class PayLyyFactory {
     /**支付相关*************************************************************************************/
     //支付初始化
     public void payInit(OnCustomLyyPayListener listener){
-        payFactory.initPayData("ehw.leyaoyao.com", 5923, "abada1fe8939ed43", "38f24d77d68b3829ee0705cef979f147")
+        payFactory.initPayData("ehw.leyaoyao.com", 0, "", "")
                 .setListener(new OnPayListener() {
                     @Override
                     public void onPayConnectStatus(boolean status) {

@@ -10,7 +10,7 @@ public class MyApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         Constant.deviceId = SystemUtil.getDeviceId();
-        Constant.deviceId = "0C65FA01C98300000000";
+//        Constant.deviceId = "0C65FA01C98300000000";
 
     }
     public static Context getContext(){

@@ -211,6 +211,10 @@ public class PayLyyService extends Service {
                     if ("1".equals(d)) {//未绑定
                         if(PayConstant.mListener != null)
                             PayConstant.mListener.getBindQrCode(lyySocketModel.getP().getQ());//获取绑定二维码
+                        Log.i("dawn","乐摇摇未绑定");
+                        mHandler.removeMessages(h_pay_setting_time_out);//取消设置超时
+                        if(PayConstant.mListener != null)
+                            PayConstant.mListener.onPayConnectStatus(true);
                         getCycleHeart();//未绑定，只发送心跳，不进行后面操作
                     } else {
                         sendLYYCommand(getParamSetting());//发送参数设置
