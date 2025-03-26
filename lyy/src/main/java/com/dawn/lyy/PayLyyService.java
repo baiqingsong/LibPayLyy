@@ -12,8 +12,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-
-import com.dawn.library.LCipherUtil;
 import com.dawn.socket.LSocketUtil;
 import com.google.gson.GsonBuilder;
 
