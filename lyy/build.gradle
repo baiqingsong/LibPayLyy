@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
 //    compileOnly 'com.github.baiqingsong:libBase:1.2.5'
-    implementation 'com.github.baiqingsong:libSocket:1.0.1'
+    implementation 'com.github.baiqingsong:libSocket:1.2.1'
 
     compileOnly 'com.google.code.gson:gson:2.8.5'
 }
